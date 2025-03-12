@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6074F2A72D8229DC0033F37F /* shared.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6074F2A62D8229DC0033F37F /* shared.xcframework */; };
+		6074F2AD2D8248220033F37F /* shared.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6074F2AC2D8248220033F37F /* shared.xcframework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,7 +31,7 @@
 		600EAECD2D736EEA00F45FA4 /* Die.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Die.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		600EAEE12D736EEC00F45FA4 /* DieTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DieTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		600EAEEB2D736EEC00F45FA4 /* DieUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DieUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6074F2A62D8229DC0033F37F /* shared.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = shared.xcframework; sourceTree = "<group>"; };
+		6074F2AC2D8248220033F37F /* shared.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = shared.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -70,7 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6074F2A72D8229DC0033F37F /* shared.xcframework in Frameworks */,
+				6074F2AD2D8248220033F37F /* shared.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,7 +94,7 @@
 		600EAEC42D736EEA00F45FA4 = {
 			isa = PBXGroup;
 			children = (
-				6074F2A62D8229DC0033F37F /* shared.xcframework */,
+				6074F2AC2D8248220033F37F /* shared.xcframework */,
 				600EAECF2D736EEA00F45FA4 /* Die */,
 				600EAEE42D736EEC00F45FA4 /* DieTests */,
 				600EAEEE2D736EEC00F45FA4 /* DieUITests */,

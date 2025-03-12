@@ -342,6 +342,7 @@ __attribute__((swift_name("DiceRollingSession")))
 - (SharedRollResult *)resolveNotationExpression:(NSString *)expression __attribute__((swift_name("resolveNotation(expression:)")));
 @property int32_t botchUpperBound __attribute__((swift_name("botchUpperBound")));
 @property NSMutableArray<SharedDiceCollection *> * _Nullable diceCollections __attribute__((swift_name("diceCollections")));
+@property int32_t doubleSuccessLowerBound __attribute__((swift_name("doubleSuccessLowerBound")));
 @property int32_t successLowerBound __attribute__((swift_name("successLowerBound")));
 @end
 

@@ -12,6 +12,7 @@ struct RollResult: Hashable {
     let result: [Int]
     let successes: Int
     let difficultyRolledAt: Int
+    let wasSpecialty: Bool
 }
 
 class DieViewModel: ObservableObject {
@@ -22,6 +23,11 @@ class DieViewModel: ObservableObject {
     @Published var successLowerBound = 6.0 {
         didSet {
             dri.successLowerBound = Int32(successLowerBound)
+        }
+    }
+    @Published var doubleSuccessLowerBound: Int32 = Int32.max {
+        didSet {
+            dri.doubleSuccessLowerBound = doubleSuccessLowerBound
         }
     }
     
@@ -38,7 +44,8 @@ class DieViewModel: ObservableObject {
         rollHistory.append(RollResult(
             result: result.diceCollectionRolls.first?.rolledResults as! [Int],
             successes: Int(truncating: result.diceCollectionRolls.first?.successes ?? KotlinInt(value: INT_MAX)),
-            difficultyRolledAt: Int(successLowerBound)
+            difficultyRolledAt: Int(successLowerBound),
+            wasSpecialty: doubleSuccessLowerBound != Int32.max
         ))
     }
 }

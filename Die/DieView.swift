@@ -14,19 +14,23 @@ struct DieView: View {
     var body: some View {
         VStack(alignment: .leading) {
             ScrollView {
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 0) {
                     Spacer()
                     ForEach(viewModel.rollHistory, id: \.self) { roll in
                         HStack {
                             Text(roll.result.map({String($0)}).joined(separator: " "))
-                                .font(.system(size: 36))
+                                .font(.system(size: 24))
+                                .padding(.leading, 8)
                             Spacer()
-                            Text("\(roll.successes)@\(roll.difficultyRolledAt)")
-                                .font(.system(size: 36))
+                            Text("\(roll.successes)@\(roll.difficultyRolledAt)\(roll.wasSpecialty ? "S" : "")")
+                                .font(.system(size: 24))
                                 .frame(alignment: .trailing)
+                                .padding(.leading, 4)
+                                .padding(.trailing, 8)
                         }
                         .background(roll.successes < 0 ? .red : (roll.successes > 0 ? .green : .white))
-
+                        .padding(.top, 1)
+                        
                     }
                 }
             }.defaultScrollAnchor(.bottom)
@@ -40,10 +44,12 @@ struct DieView: View {
                 sliderValue: $viewModel.successLowerBound,
                 onButtonPress: { number in
                     viewModel.triggerRoll(d10Count: number)
+                },
+                specialtyToggled: { isOn in
+                    viewModel.doubleSuccessLowerBound = isOn ? 10 : Int32.max
                 }
             )
         }
-        .padding(8)
         .padding(.bottom, 30)
     }
 }
