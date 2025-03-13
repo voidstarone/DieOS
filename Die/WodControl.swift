@@ -32,7 +32,7 @@ struct WodControl: View {
     var body: some View {
         GeometryReader { geometry in
             HStack(spacing: 10) {
-                Grid() {
+                Grid {
                     ForEach(0..<4) { row in
                         GridRow {
                             ForEach(0..<3) { col in
@@ -58,24 +58,30 @@ struct WodControl: View {
                         .gridCellColumns(2)
                     }
                 }
-                .padding(.leading, 8)
+                .padding()
                 .frame(width: geometry.size.width * 0.85)
                 
                 VStack {
-                    Text("\(Int(sliderValue))")
-                        .font(.headline)
-                    
+                    HStack {
+                        Spacer()
+                        Text("\(Int(sliderValue))")
+                            .font(.headline)
+                        Spacer()
+                    }
+                        
                     VerticalSlider(
                         value: $sliderValue,
                         range: 2...10
                     )
+                    .frame(height: geometry.size.height * 0.8) // Adjust slider height
+                    
+                    
                 }
                 .frame(width: geometry.size.width * 0.15)
             }
         }
     }
 }
-
 
 struct WodControl_Previews: PreviewProvider {
     static var previews: some View {
