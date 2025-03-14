@@ -37,7 +37,8 @@ struct DieView: View {
                     .padding(.top, 1)
                 }
             }
-        }.defaultScrollAnchor(.bottom)
+        }
+        .defaultScrollAnchor(.bottom)
     }
     
     var body: some View {
@@ -52,7 +53,8 @@ struct DieView: View {
                     viewModel.doubleSuccessLowerBound = isOn ? 10 : Int32.max
                 }
             )
+            .frame(maxWidth: .infinity)
+            .fixedSize(horizontal: false, vertical: true)
         }
-        .padding(.bottom, 10)
     }
 }
