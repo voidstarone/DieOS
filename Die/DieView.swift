@@ -12,15 +12,16 @@ struct DieView: View {
     @ObservedObject var viewModel: DieViewModel
     
     private func rollRow(_ roll: RollResult) -> some View {
+        let font = Font.system(size: 24, design: .monospaced)
         return HStack {
             Text((roll.result.map { num in
                 String(num == 10 ? "0" : "\(num)")
             }).joined(separator: " "))
-            .font(.system(size: 24))
+            .font(font)
             .padding(.leading, 8)
             Spacer()
             Text("\(roll.successes)@\(roll.difficultyRolledAt)\(roll.wasSpecialty ? "S" : "")")
-                .font(.system(size: 24))
+                .font(font)
                 .frame(alignment: .trailing)
                 .padding(.leading, 4)
                 .padding(.trailing, 8)
@@ -55,6 +56,7 @@ struct DieView: View {
             )
             .frame(maxWidth: .infinity)
             .fixedSize(horizontal: false, vertical: true)
+            .padding(.bottom, 20)
         }
     }
 }

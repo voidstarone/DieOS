@@ -8,10 +8,8 @@ struct VerticalSlider: View {
     var thumbSize: CGFloat
     var trackWidth: CGFloat
     
-    // For tracking drag state
     @State private var isDragging = false
     
-    // Computed property to determine if we should snap to integers
     private var shouldSnapToIntegers: Bool {
         return range.lowerBound.truncatingRemainder(dividingBy: 1) == 0 &&
                range.upperBound.truncatingRemainder(dividingBy: 1) == 0
@@ -33,36 +31,59 @@ struct VerticalSlider: View {
         self.trackWidth = trackWidth
     }
     
+    private func makeSnapLines(geometry: GeometryProxy, offset: CGFloat) -> some View {
+        ForEach(Int(range.lowerBound)...Int(range.upperBound), id: \.self) { value in
+            Rectangle()
+                .fill(Color.gray.opacity(0.5))
+                .frame(width: geometry.size.width / 12, height: 1)
+                .offset(
+                    x: offset,
+                    y: -snapLinePosition(for: Double(value), in: geometry)
+                )
+        }
+    }
+    
+    private func track(geometry: GeometryProxy) -> some View {
+        Rectangle()
+            .fill(trackColor)
+            .frame(width: trackWidth, height: geometry.size.height)
+            .cornerRadius(trackWidth / 2)
+    }
+    
+    private func thumb(geometry: GeometryProxy) -> some View {
+        Circle()
+            .fill(thumbColor)
+            .frame(width: thumbSize, height: thumbSize)
+            .offset(y: -thumbPosition(in: geometry))
+            .gesture(
+                DragGesture()
+                    .onChanged { dragValue in
+                        isDragging = true
+                        updateValueFromDrag(drag: dragValue, in: geometry)
+                    }
+                    .onEnded { _ in
+                        snapToClosestValue()
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            isDragging = false
+                        }
+                    }
+            )
+            .animation(isDragging ? nil : .spring(response: 0.3, dampingFraction: 0.7), value: value)
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             HStack {
                 Spacer()
                 ZStack(alignment: .bottom) {
-                    // Track
-                    Rectangle()
-                        .fill(trackColor)
-                        .frame(width: trackWidth, height: geometry.size.height)
-                        .cornerRadius(trackWidth / 2)
+                    track(geometry: geometry)
                     
-                    // Thumb
-                    Circle()
-                        .fill(thumbColor)
-                        .frame(width: thumbSize, height: thumbSize)
-                        .offset(y: -thumbPosition(in: geometry))
-                        .gesture(
-                            DragGesture()
-                                .onChanged { dragValue in
-                                    isDragging = true
-                                    updateValueFromDrag(drag: dragValue, in: geometry)
-                                }
-                                .onEnded { _ in
-                                    snapToClosestValue()
-                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                                        isDragging = false
-                                    }
-                                }
-                        )
-                        .animation(isDragging ? nil : .spring(response: 0.3, dampingFraction: 0.7), value: value)
+                    if shouldSnapToIntegers {
+                        makeSnapLines(geometry: geometry, offset: -8)
+                        makeSnapLines(geometry: geometry, offset: 8)
+                    }
+                    
+                    thumb(geometry: geometry)
                 }
                 .frame(width: max(thumbSize, trackWidth), height: geometry.size.height)
                 .contentShape(Rectangle())
@@ -90,6 +111,12 @@ struct VerticalSlider: View {
         return availableHeight * CGFloat(percentage)
     }
     
+    private func snapLinePosition(for value: Double, in geometry: GeometryProxy) -> CGFloat {
+        let availableHeight = geometry.size.height - thumbSize
+        let percentage = (value - range.lowerBound) / (range.upperBound - range.lowerBound)
+        return availableHeight * CGFloat(percentage) + (thumbSize / 2)
+    }
+    
     private func updateValueFromDrag(
         drag: DragGesture.Value,
         in geometry: GeometryProxy
@@ -106,10 +133,8 @@ struct VerticalSlider: View {
     
     private func snapToClosestValue() {
         if shouldSnapToIntegers {
-            // Round to nearest integer
             value = Double(round(value))
             
-            // Ensure value stays within range
             value = min(max(value, range.lowerBound), range.upperBound)
         }
     }
@@ -128,7 +153,7 @@ fileprivate struct VerticalSliderExample: View {
                 
                 VerticalSlider(
                     value: $sliderValue,
-                    range: 0...1,
+                    range: 0...10,
                     thumbColor: .blue,
                     trackColor: .gray.opacity(0.3),
                     thumbSize: 24,

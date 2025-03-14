@@ -65,7 +65,7 @@ struct WodControl: View {
                 .gridCellColumns(2)
             }
         }
-        .frame(width: geometry.size.width * 0.7)
+        .frame(width: geometry.size.width * 0.8)
     }
     
     func sliderContainer(geometry: GeometryProxy) -> some View {
